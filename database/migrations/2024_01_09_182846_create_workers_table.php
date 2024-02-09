@@ -19,9 +19,8 @@ return new class extends Migration
             $table->string('password');
             $table->integer('phone')->nullable();
             $table->string('location')->nullable();
-            $table->string('photo_path')->nullable(); // Assuming a file path for the photo
+            $table->string('photo')->nullable(); // Assuming a file path for the photo
             $table->softDeletes();
-
             $table->rememberToken();
             $table->timestamps();
         });
