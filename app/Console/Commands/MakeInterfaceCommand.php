@@ -49,6 +49,10 @@ class MakeInterfaceCommand extends Command
         return ucwords(Pluralizer::singular($interfaceName));
     }
 
+    public function getPluralClassName($interfaceName)
+    {
+        return ucwords(Pluralizer::plural($interfaceName));
+    }
     /**
      * Return the stub file path
      * @return string
@@ -72,6 +76,7 @@ class MakeInterfaceCommand extends Command
             'NAMESPACE' => 'App\\Interfaces',
             'CLASS_NAME' => $className = $this->getSingularClassName($this->argument('interfaceName')),
             "MODEL_NAME" => $this->argument('interfaceName'),
+            "MODEL_NAMES" =>$this->getPluralClassName($this->argument('interfaceName')),
 
         ];
     }

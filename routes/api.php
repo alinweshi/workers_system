@@ -102,15 +102,24 @@ Route::get('/unauthorized', function () {
     ], 401);
 })->name('login');
 
-        Route::get('/Companys', [CompanyController::class, 'index']);
-        Route::post('/Companys', [CompanyController::class, 'store']);
-        Route::get('/Companys/{id}', [CompanyController::class, 'show']);
-        Route::put('/Companys/{id}', [CompanyController::class, 'update']);
-        Route::delete('/Companys/{id}', [CompanyController::class, 'destroy']);
+
+
     
-        Route::get('/Companys', [CompanyController::class, 'index']);
-        Route::post('/Companys', [CompanyController::class, 'store']);
-        Route::get('/Companys/{id}', [CompanyController::class, 'show']);
-        Route::put('/Companys/{id}', [CompanyController::class, 'update']);
-        Route::delete('/Companys/{id}', [CompanyController::class, 'destroy']);
+        Route::get('/companies', [companyController::class, 'index']);
+        Route::post('/companies', [companyController::class, 'store']);
+        Route::get('/companies/{id}', [companyController::class, 'show']);
+        Route::put('/companies/{id}', [companyController::class, 'update']);
+        Route::delete('/companies/{id}', [companyController::class, 'destroy']);
+    
+        Route::get('/companies', [companyController::class, 'index']);
+        Route::post('/companies', [companyController::class, 'store']);
+        Route::get('/companies/{id}', [companyController::class, 'show']);
+        Route::put('/companies/{id}', [companyController::class, 'update']);
+        Route::delete('/companies/{id}', [companyController::class, 'destroy']);
+    
+        Route::get('/companies', [companyController::class, 'index']);
+        Route::post('/companies', [companyController::class, 'store']);
+        Route::get('/companies/{id}', [companyController::class, 'show']);
+        Route::put('/companies/{id}', [companyController::class, 'update']);
+        Route::delete('/companies/{id}', [companyController::class, 'destroy']);
     

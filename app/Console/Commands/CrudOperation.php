@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Pluralizer;
 use Illuminate\Support\Str;
 
 class CrudOperation extends Command
@@ -32,6 +33,8 @@ class CrudOperation extends Command
         // Call commands to generate files
         $this->call('make:model', ['name' => $modelName]);
         $this->call('make:controller', ['name' => $modelName . 'Controller']);
+        $this->call('make:interface', ['interfaceName' => $modelName]);
+        $this->call("make:repository", ['repositoryName' => $modelName]);
         $this->call('make:resource', ['name' => $modelName . 'Resource']);
         $this->call('make:migration', ['name' => "create_" . strtolower(Str::plural($modelName)) . "_table"]);
         $this->call('make:seeder', ['name' => $modelName . 'TableSeeder']);
@@ -58,29 +61,30 @@ class CrudOperation extends Command
  * @param string $modelName The name of the model.
  * @return void
  */
-protected function generateRouteDefinitions($modelName)
-{
-    // Get the path to the api.php route file
-    $routeFile = base_path('routes/api.php');
+    protected function generateRouteDefinitions($modelName)
+    {
+        // Get the path to the api.php route file
+        $routeFile = base_path('routes/api.php');
 
-    // Read the content of the existing route file
-    $routeDefinitions = File::get($routeFile);
+        // Read the content of the existing route file
+        $routeDefinitions = File::get($routeFile);
 
-    // Generate the controller name based on the model name
-    $controllerName = $modelName . 'Controller';
+        // Generate the controller name based on the model name
+        $controllerName = $modelName . 'Controller';
 
-    // Append route definitions for CRUD operations
-    //append  it means to add some route definitions to the existing route file
-    $routeDefinitions .= "
-        Route::get('/{$modelName}s', [{$controllerName}::class, 'index']);
-        Route::post('/{$modelName}s', [{$controllerName}::class, 'store']);
-        Route::get('/{$modelName}s/{id}', [{$controllerName}::class, 'show']);
-        Route::put('/{$modelName}s/{id}', [{$controllerName}::class, 'update']);
-        Route::delete('/{$modelName}s/{id}', [{$controllerName}::class, 'destroy']);
+        // Append route definitions for CRUD operations
+        //append  it means to add some route definitions to the existing route file
+        $modelNames = Pluralizer::plural($modelName);
+        $routeDefinitions .= "
+        Route::get('/{$modelNames}', [{$controllerName}::class, 'index']);
+        Route::post('/{$modelNames}', [{$controllerName}::class, 'store']);
+        Route::get('/{$modelNames}/{id}', [{$controllerName}::class, 'show']);
+        Route::put('/{$modelNames}/{id}', [{$controllerName}::class, 'update']);
+        Route::delete('/{$modelNames}/{id}', [{$controllerName}::class, 'destroy']);
     ";
 
-    // Write the updated route definitions back to the route file
-    File::put($routeFile, $routeDefinitions);
-}
+        // Write the updated route definitions back to the route file
+        File::put($routeFile, $routeDefinitions);
+    }
 
 }

@@ -46,6 +46,10 @@ class MakeRepositoryCommand extends Command
     {
         return ucwords(Pluralizer::singular($repositoryName));
     }
+    public function getPluralClassName($repositoryName)
+    {
+        return ucwords(Pluralizer::plural($repositoryName));
+    }
     /**
      * Return the stub file path
      * @return string
@@ -69,6 +73,7 @@ class MakeRepositoryCommand extends Command
             'CLASS_NAME' => $className = $this->getSingularClassName($this->argument('repositoryName') . "Repository"),
             "INTERFACE_NAME" => $this->argument('repositoryName') . "RepositoryInterface",
             "MODEL_NAME" => $this->argument('repositoryName'),
+            "MODEL_NAMES" => $this->getPluralClassName($this->argument('repositoryName')),
         ];
     }
     /**

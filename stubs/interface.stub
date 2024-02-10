@@ -2,12 +2,12 @@
 
 namespace $NAMESPACE$;
 
-interface $CLASS_NAME$RepositoryInterface;
+interface $CLASS_NAME$RepositoryInterface
 {
-    public function getAll$MODEL_NAME$s();
+    public function getAll$MODEL_NAMES$();
     public function get$MODEL_NAME$ById($$MODEL_NAME$Id);
     public function delete$MODEL_NAME$($$MODEL_NAME$Id);
     public function create$MODEL_NAME$(array $$MODEL_NAME$Details);
     public function update$MODEL_NAME$($$MODEL_NAME$Id, array $newDetails);
-    public function getFulfilled$MODEL_NAME$s();
+    public function getFulfilled$MODEL_NAMES$();
 }

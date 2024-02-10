@@ -5,7 +5,7 @@ use App\Models\$MODEL_NAME$;
 
 
 class $CLASS_NAME$ implements $INTERFACE_NAME${
-public function getAll$MODEL_NAME$s() 
+public function getAll$MODEL_NAMES$() 
     {
         return $MODEL_NAME$::all();
     }
@@ -30,7 +30,7 @@ public function getAll$MODEL_NAME$s()
         return $MODEL_NAME$::whereId($$MODEL_NAME$Id)->update($newDetails);
     }
 
-    public function getFulfilled$MODEL_NAME$s() 
+    public function getFulfilled$MODEL_NAMES$() 
     {
         return $MODEL_NAME$::where('is_fulfilled', true);
     }
