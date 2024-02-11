@@ -68,10 +68,22 @@ abstract class AbstractOrderRepository implements OrderRepositoryInterface
             return $model;
         }
         
-        public function is_completed($id){
+        public function is_completed($id, array $data){
+            $model = $this->model->find($id);
+            if (!$model) {
+                return false; // Or handle this case accordingly
+            }
+            $model->update($data);
+        
+            return $model;
 
         }
-        public function is_cancelled($id){
-
+        public function is_cancelled($id, array $data){
+            $model = $this->model->find($id);
+            if (!$model) {
+                return false; // Or handle this case accordingly
+            }
+            $model->update($data);
+            return $model;
         }
 }

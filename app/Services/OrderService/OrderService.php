@@ -64,7 +64,7 @@ class OrderService
 
         return $result;
     }
-    public function updateOrder( $orderId,$request)
+    public function updateOrder($orderId, $request)
     {
         // $data = $request->all();
         $order = $this->orderRepository->update($request, $orderId);
@@ -83,16 +83,26 @@ class OrderService
     public function isPaid($id, array $data)
     {
         $order = $this->orderRepository->find($id);
-    
+
         if (!$order) {
             return false; // Or handle this case accordingly
         }
-    
+
         $order = $this->orderRepository->is_paid($id, $data);
-    
+
         return $order;
     }
-    
-    
+    public function is_completed($id, array $data)
+    {
+        $order = $this->orderRepository->is_completed($id, $data);
+
+        return $order;
+    }
+    public function is_cancelled($id, array $data)
+    {
+        $order = $this->orderRepository->is_cancelled($id, $data);
+
+        return $order;
+    }
 
 }

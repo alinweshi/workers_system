@@ -69,15 +69,38 @@ class OrderRepository extends AbstractOrderRepository
     public function is_paid($id, array $data)
     {
         $order = $this->order->find($id);
-    
+
         if (!$order) {
             return false; // Or handle this case accordingly
         }
-    
+
         $order->update($data);
-    
+
         return $order;
     }
-    
-    
+    public function is_completed($id, array $data)
+    {
+        $order = $this->order->find($id);
+
+        if (!$order) {
+            return false; // Or handle this case accordingly
+        }
+
+        $order->update($data);
+
+        return $order;
+    }
+    public function is_cancelled($id, array $data)
+    {
+        $order = $this->order->find($id);
+
+        if (!$order) {
+            return false; // Or handle this case accordingly
+        }
+
+        $order->update($data);
+
+        return $order;
+    }
+
 }

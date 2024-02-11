@@ -9,6 +9,6 @@ interface OrderRepositoryInterface
     public function update($id, array $data);
     public function delete($id);
     public function is_paid($id,array $data);
-    public function is_completed($id);
-    public function is_cancelled($id);
+    public function is_completed($id, array $data);
+    public function is_cancelled($id, array $data);
 }

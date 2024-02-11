@@ -78,9 +78,9 @@ Route::prefix('auth')->group(function () {
         Route::post('/update/{orderId}', 'update');
         Route::delete('/delete/{orderId}', 'delete');
         Route::delete('/deleteAll', 'deleteAll');
-        Route::post('/is_completed', 'is_completed')->middleware('auth:admin');
+        Route::post('/is_completed/{id}', 'is_completed')->middleware('auth:admin');
         Route::post('/is_paid/{id}', 'is_paid')->middleware('auth:admin');
-        Route::get('/is_cancelled', 'is_cancelled')->middleware('auth:admin');
+        Route::post('/is_cancelled/{id}', 'is_cancelled')->middleware('auth:admin');
     });
 });
 Route::group([
@@ -103,23 +103,3 @@ Route::get('/unauthorized', function () {
 })->name('login');
 
 
-
-    
-        Route::get('/companies', [companyController::class, 'index']);
-        Route::post('/companies', [companyController::class, 'store']);
-        Route::get('/companies/{id}', [companyController::class, 'show']);
-        Route::put('/companies/{id}', [companyController::class, 'update']);
-        Route::delete('/companies/{id}', [companyController::class, 'destroy']);
-    
-        Route::get('/companies', [companyController::class, 'index']);
-        Route::post('/companies', [companyController::class, 'store']);
-        Route::get('/companies/{id}', [companyController::class, 'show']);
-        Route::put('/companies/{id}', [companyController::class, 'update']);
-        Route::delete('/companies/{id}', [companyController::class, 'destroy']);
-    
-        Route::get('/companies', [companyController::class, 'index']);
-        Route::post('/companies', [companyController::class, 'store']);
-        Route::get('/companies/{id}', [companyController::class, 'show']);
-        Route::put('/companies/{id}', [companyController::class, 'update']);
-        Route::delete('/companies/{id}', [companyController::class, 'destroy']);
-    
