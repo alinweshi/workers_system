@@ -2,56 +2,60 @@
 
 namespace App\Services\ClientService;
 
-use App\Http\Requests\ClientRequest\LoginRequest;
 use App\Models\Client;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class LoginService
 {
     protected $model;
-    protected $request;
 
-    public function __construct(LoginRequest $request)
+    public function __construct(Request $request)
     {
         $this->model = new Client();
         $this->request = $request;
     }
+
     public function validateLogin($request)
     {
         $validator = Validator::make($request->all(), $request->rules());
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
+        // Return the validated data instead of the request object
         return $validator;
     }
-    public function CheckToken($data)
+
+    public function checkToken($data)
     {
-        if (!$token = auth()->guard('client')->attempt($data->validated())) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        if (!$token = auth()->guard('client')->attempt($data)) {
+            // dd($token, auth()->guard('client')->attempt($data));
+            return response()->json(['error' => 'Invalid credentials'], 401);
         }
+
         return $token;
     }
-    public function getStatus($email, $token)
-    {
-        $Client = $this->model->where('email', $email)->first();
-        if (!$Client) {
-            return response()->json(['error' => 'incorrect data'], 404);
-        }
-        $status = $Client->status;
-        return $status;
 
-    }
-    public function is_verified($email)
+    public function getStatus($email)
     {
-        $Client = $this->model->where('email', $email)->first();
-        if (!$Client) {
-            return response()->json(['error' => 'incorrect data'], 404);
+        $client = $this->model->where('email', $email)->first();
+        if (!$client) {
+            return response()->json(['error' => 'User not found'], 404);
         }
-        $verified = $Client->email_verified_at;
-
-        return $verified;
+        return $client->status;
     }
+
+    public function isVerified($email)
+    {
+        $client = $this->model->where('email', $email)->first();
+        if (!$client) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        return $client->email_verified_at !== null;
+    }
+
     protected function createNewToken($token)
     {
         return response()->json([
@@ -61,18 +65,31 @@ class LoginService
             'user' => auth()->guard('client')->user(),
         ]);
     }
+
     public function login($request)
     {
-        $data = $this->validateLogin($request);
-        $token = $this->CheckToken($data);
-        $token = $this->createNewToken($token);
-        $status = $this->getStatus($request->email, $token);
-        if ($this->is_verified($request->email) == null) {
-            return response()->json(['message' => 'your account is not verified'], 200);
-        } elseif ($status == 1) {
-            return response()->json(['token' => $token, 'status' => $status], 200);
-        }
-        return response()->json(['status' => 'Inactive'], 200);
-    }
+        $validator = $this->validateLogin($request);
+        $data = $validator->validated(); // Access validated data
+        $token = $this->checkToken($data);
+        try {
+            DB::beginTransaction();
+            if (!$token instanceof JsonResponse) {
+                $status = $this->getStatus($request->email);
+                if ($status == 0) {
+                    return response()->json(['message' => 'Your account is inactive'], 200);
+                }
+                if (!$this->isVerified($request->email)) {
+                    return response()->json(['message' => 'Your account is not verified'], 200);
+                }
+                return $this->createNewToken($token);
+            }
+            DB::commit();
+            return $token; // Return error response from token check
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => $e->getMessage()], 500);
 
+        }
+
+    }
 }

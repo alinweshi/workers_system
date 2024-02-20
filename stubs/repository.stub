@@ -1,11 +1,11 @@
 <?php
 namespace $NAMESPACE$;
 use App\Interfaces\$INTERFACE_NAME$;
-use App\Models\$MODEL_NAME$;
+use $MODEL_PATH$;
 
 
 class $CLASS_NAME$ implements $INTERFACE_NAME${
-public function getAll$MODEL_NAMES$() 
+    public function getAll$MODEL_NAMES$() 
     {
         return $MODEL_NAME$::all();
     }
@@ -13,11 +13,6 @@ public function getAll$MODEL_NAMES$()
     public function get$MODEL_NAME$ById($$MODEL_NAME$Id) 
     {
         return $MODEL_NAME$::findOrFail($$MODEL_NAME$Id);
-    }
-
-    public function delete$MODEL_NAME$($$MODEL_NAME$Id) 
-    {
-        $MODEL_NAME$::destroy($$MODEL_NAME$Id);
     }
 
     public function create$MODEL_NAME$(array $$MODEL_NAME$Details) 
@@ -28,6 +23,14 @@ public function getAll$MODEL_NAMES$()
     public function update$MODEL_NAME$($$MODEL_NAME$Id, array $newDetails) 
     {
         return $MODEL_NAME$::whereId($$MODEL_NAME$Id)->update($newDetails);
+    }
+
+    public function delete$MODEL_NAME$($$MODEL_NAME$Id) 
+    {
+        $MODEL_NAME$::destroy($$MODEL_NAME$Id);
+    }
+    public function deleteAll(){
+        return $MODEL_NAME$::all()->delete();
     }
 
     public function getFulfilled$MODEL_NAMES$() 

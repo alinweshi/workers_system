@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\ApiRequest;
-
-class OrderCancellationStatus extends ApiRequest
+class CreateWorkerReviewRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,16 +20,10 @@ class OrderCancellationStatus extends ApiRequest
     public function rules(): array
     {
         return [
-            'is_cancelled' => ['required', 'integer', 'in:0,1'],
-            'cancellation_reason' => $this->getCancellationReasonRules(),
+            "worker_id" => "required|exists:workers,id",
+            "client_id" => "required|exists:clients,id",
+            "rate" => "required|numeric|min:1|max:5",
+            "comment" => "required|string|max:255",
         ];
     }
-
-    protected function getCancellationReasonRules()
-    {
-        return [
-            'required_if:is_cancelled,0|string',
-        ];
-    }
-
 }

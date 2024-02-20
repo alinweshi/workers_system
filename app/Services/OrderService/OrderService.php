@@ -4,6 +4,7 @@ namespace App\Services\OrderService;
 use App\Models\Order;
 use App\Models\Post;
 use App\Repositories\OrderRepository;
+use Illuminate\Support\Facades\Validator;
 
 class OrderService
 {
@@ -60,7 +61,7 @@ class OrderService
 
     public function getOrdersByClientId($clientId)
     {
-        $result = $this->orderRepository->showByClientId($clientId);
+        $result = $this->orderRepository->show($clientId);
 
         return $result;
     }
@@ -80,29 +81,50 @@ class OrderService
         $this->orderRepository->deleteAll();
         return true;
     }
+
     public function isPaid($id, array $data)
     {
-        $order = $this->orderRepository->find($id);
 
-        if (!$order) {
-            return false; // Or handle this case accordingly
-        }
-
-        $order = $this->orderRepository->is_paid($id, $data);
+        $order = $this->orderRepository->is_Paid($id, $data);
 
         return $order;
     }
-    public function is_completed($id, array $data)
+
+    public function isCompleted($id, array $data)
     {
+        // $order = $this->orderRepository->show($id);
+
+        // if (!$order) {
+        //     throw new ModelNotFoundException("Order not found");
+        // }
+
         $order = $this->orderRepository->is_completed($id, $data);
 
         return $order;
     }
-    public function is_cancelled($id, array $data)
+
+    public function isCancelled($id, array $data)
     {
+        // $order = $this->orderRepository->show($id);
+
+        // if (!$order) {
+        //     throw new ModelNotFoundException("Order not found");
+        // }
+
         $order = $this->orderRepository->is_cancelled($id, $data);
 
         return $order;
+    }
+    public function validateOrder($request)
+    {
+        $data = Validator::make($request->all(), $request->rules());
+        if (!$data->fails()) {
+            $data = $data->validate();
+            return $data;
+
+        }
+        $error = throw new \Exception('Validation failed: ' . $data->errors()->first());
+        return response()->json(['error' => $error], 400);
     }
 
 }

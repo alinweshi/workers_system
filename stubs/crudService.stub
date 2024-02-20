@@ -1,0 +1,32 @@
+<?php
+namespace {{ namespace }} ;//App\Services\OrderService
+use App\Models\{{ modelClass }};//App\Models\Order
+use {{ modelRepositoryRoot }};//App\Repositories\OrderRepository
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+class {{ class }}Service{
+    protected ${{ modelInstance }}Repository ;
+    public function __construct({{ modelClass }}Repository ${{ modelInstance }}Repository){
+        $this->{{ modelInstance }}Repository =${{ modelInstance }}Repository;
+    }
+    public function getAll(){
+        return $this->{{ modelInstance }}Repository->getAll();
+    }
+    public function getById($id){
+        return $this->{{ modelInstance }}Repository->getById($id);
+    }
+    public function create($data){
+        return $this->{{ modelInstance }}Repository->create($data);
+    }
+    public function update($id, $data){
+        return $this->{{ modelInstance }}Repository->update($id, $data);
+    }
+    public function delete($id){
+        return $this->{{ modelInstance }}Repository->delete($id);
+    }
+    public function deleteAll(){
+        return $this->{{ modelInstance }}Repository->deleteAll();
+    }
+}
+
+

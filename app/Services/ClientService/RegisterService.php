@@ -3,7 +3,6 @@ namespace App\Services\ClientService;
 
 use App\Mail\verificationEmail;
 use App\Models\Client;
-use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -20,23 +19,25 @@ class RegisterService
     //validate the data
     public function validateRegister($request)
     {
-
         $validator = Validator::make($request->all(), $request->rules());
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+        if (!$validator->fails()) {
+            $validator = $validator->validate();
+            return $validator;
         }
-        return ($validator);
+        $error = throw new \Exception('Validation failed: ' . $validator->errors()->first());
+
     }
+
     public function generateToken($email)
     {
         $token = Str::random(60); // Generate a random string (60 characters)
         $base64Token = base64_encode($token); // Encode the token to make it URL-safe
 
-        $worker = $this->model->whereEmail($email)->first();
+        $client = $this->model->whereEmail($email)->first();
 
-        if ($worker) {
-            $worker->verification_token = $base64Token;
-            $worker->save();
+        if ($client) {
+            $client->verification_token = $base64Token;
+            $client->save();
         }
 
         return $base64Token;
@@ -44,7 +45,7 @@ class RegisterService
 
     public function storeData($validator, $request, $token)
     {
-        $validatedData = $validator->validated();
+        $validatedData = $validator;
         $client = Client::create(array_merge(
             $validatedData, // Use $validatedData instead of $validator
             [
@@ -80,7 +81,7 @@ class RegisterService
             $this->sendEmail($request->email, $token, $request->name);
             DB::commit();
             return response()->json(['message' => 'you have been registered,Please check your email to verify your account'], 201);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['message' => $e->getMessage()], 500);
         }

@@ -1,7 +1,7 @@
 <?php
-namespace Employee;
+namespace App\Repositories;
 use App\Interfaces\EmployeeRepositoryInterface;
-use App\Models\Employee;
+use App\Models\Employee\Employee;
 
 
 class EmployeeRepository implements EmployeeRepositoryInterface{

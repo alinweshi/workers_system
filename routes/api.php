@@ -1,13 +1,13 @@
 <?php
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminNotificationController;
 use App\Http\Controllers\ClientAuthController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\PostStatusController;
 use App\Http\Controllers\WorkerAuthController;
-use App\Http\Controllers\AdminNotificationController;
+use App\Http\Controllers\WorkerReviewController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,9 +78,18 @@ Route::prefix('auth')->group(function () {
         Route::post('/update/{orderId}', 'update');
         Route::delete('/delete/{orderId}', 'delete');
         Route::delete('/deleteAll', 'deleteAll');
-        Route::post('/is_completed/{id}', 'is_completed')->middleware('auth:admin');
-        Route::post('/is_paid/{id}', 'is_paid')->middleware('auth:admin');
+        Route::post('/is_completed/{id}', 'isCompleted')->middleware('auth:admin');
+        Route::post('/is_paid/{id}', 'isPaid')->middleware('auth:admin');
         Route::post('/is_cancelled/{id}', 'is_cancelled')->middleware('auth:admin');
+    });
+    Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/showAll', 'getAllReviews');
+        Route::get('/show/{id}', 'getReviewById');
+        Route::get('/show/client/{id}', 'getReviewsByClientId');
+        Route::post('/store', 'addReview')->middleware('auth:client');
+        Route::post('/update/{reviewId}', 'update');
+        Route::delete('/delete/{reviewId}', 'delete');
+        Route::delete('/delete', 'deleteAll');
     });
 });
 Route::group([
@@ -103,3 +112,4 @@ Route::get('/unauthorized', function () {
 })->name('login');
 
 
+    

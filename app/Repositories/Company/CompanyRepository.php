@@ -1,7 +1,7 @@
 <?php
 namespace Company;
 use App\Interfaces\CompanyRepositoryInterface;
-use App\Models\Company;
+use App\Models\Company\Company;
 
 
 class CompanyRepository implements CompanyRepositoryInterface{

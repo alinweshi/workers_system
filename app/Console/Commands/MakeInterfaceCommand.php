@@ -44,14 +44,29 @@ class MakeInterfaceCommand extends Command
      * @param $interfaceName
      * @return string
      */
-    public function getSingularClassName($interfaceName)
+    public function getModelName()
     {
-        return ucwords(Pluralizer::singular($interfaceName));
+        $segments = explode('/', $this->argument("interfaceName"));
+        $segments = array_map('ucfirst', $segments);
+        return end($segments);
+    }
+    public function getModelNames()
+    {
+        $segments = explode('/', $this->argument("interfaceName"));
+        $segments = array_map('ucfirst', $segments);
+        return $segments = Pluralizer::plural(end($segments));
     }
 
-    public function getPluralClassName($interfaceName)
+    public function getPluralClassName()
     {
-        return ucwords(Pluralizer::plural($interfaceName));
+        return ucwords(Pluralizer::plural($this->argument("interfaceName")));
+    }
+    public function getSingularClassName()
+    {
+        $segments = explode("/", $this->argument("interfaceName"));
+        $segments = array_map('ucfirst', $segments);
+        $segments = implode("\\", $segments);
+        return $segments;
     }
     /**
      * Return the stub file path
@@ -61,6 +76,26 @@ class MakeInterfaceCommand extends Command
     public function getStubPath()
     {
         return $stubPath = __DIR__ . '/../../../stubs/interface.stub';
+    }
+    protected function getClassName()
+    {
+        $segments = explode('/', $this->argument("interfaceName"));
+        $segments = array_map('ucfirst', $segments);
+        return end($segments);
+    }
+    protected function getModelInstance()
+    {
+        $segments = explode('/', $this->argument("interfaceName"));
+        $segments = array_map('ucfirst', $segments);
+        $segments = end($segments);
+        return (lcfirst($segments));
+    }
+    protected function getNamespace()
+    {
+        $segments = explode('/', $this->argument('interfaceName'));
+        $segments = array_map('ucfirst', $segments);
+        $segments = [array_pop($segments)];
+        return 'App\\Interfaces\\' . implode("\\", $segments);
     }
 
     /**
@@ -72,11 +107,13 @@ class MakeInterfaceCommand extends Command
      */
     public function getStubVariables()
     {
+
         return $stubVariables = [
-            'NAMESPACE' => 'App\\Interfaces',
-            'CLASS_NAME' => $className = $this->getSingularClassName($this->argument('interfaceName')),
-            "MODEL_NAME" => $this->argument('interfaceName'),
-            "MODEL_NAMES" =>$this->getPluralClassName($this->argument('interfaceName')),
+            'NAMESPACE' => $this->getNamespace(),
+            'CLASS_NAME' => $className = $this->getClassName(),
+            "modelInstance" => $this->getModelInstance(),
+            "MODEL_NAME" => $this->getModelName(),
+            "MODEL_NAMES" => $this->getModelNames(),
 
         ];
     }
@@ -121,8 +158,7 @@ class MakeInterfaceCommand extends Command
      */
     public function getSourceFilePath()
     {
-        return base_path('App\\Interfaces') . '\\' . $this->getSingularClassName($this->argument('interfaceName')) . 'RepositoryInterface.php';
-        // return base_path('App\\Interfaces') . '\\' . $this->getSingularClassName($this->argument($interfaceName)) . 'Interface.php';
+        return base_path('App\\Interfaces') . '\\' . $this->getSingularClassName() . 'RepositoryInterface.php';
     }
     /**
      * Build the directory for the class if necessary.

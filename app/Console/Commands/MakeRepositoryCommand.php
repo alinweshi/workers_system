@@ -42,13 +42,28 @@ class MakeRepositoryCommand extends Command
      * @param $repositoryName
      * @return string
      */
-    public function getSingularClassName($repositoryName)
+    public function getSingularClassName()
     {
-        return ucwords(Pluralizer::singular($repositoryName));
+        $segments = explode("/", $this->argument("repositoryName"));
+        $segments = array_map('ucfirst', $segments);
+        return $segments = implode("\\", $segments);
     }
     public function getPluralClassName($repositoryName)
     {
         return ucwords(Pluralizer::plural($repositoryName));
+    }
+    protected function getClassName()
+    {
+        $segments = explode('/', $this->argument('repositoryName'));
+        $segments = array_map('ucfirst', $segments);
+        return end($segments);
+    }
+    protected function getModelPath()
+    {
+        $segments = explode('/', $this->argument('repositoryName'));
+        $segments = array_map('ucfirst', $segments);
+        return 'App\\Models\\' . implode("\\",$segments);
+
     }
     /**
      * Return the stub file path
@@ -58,6 +73,20 @@ class MakeRepositoryCommand extends Command
     public function getStubPath()
     {
         return $stubPath = __DIR__ . '/../../../stubs/repository.stub';
+    }
+    protected function getNamespace()
+    {
+        $segments = explode('/', $this->argument('repositoryName'));
+        $segments = array_map('ucfirst', $segments);
+        $segments = [array_pop($segments)];
+        return  implode("\\", $segments);
+    }
+    public function getModelNames()
+    {
+        $segments = explode('/', $this->argument("repositoryName"));
+        $segments = array_map('ucfirst', $segments);
+        end($segments);
+        return $segments = Pluralizer::plural(end($segments));
     }
     /**
      **
@@ -69,11 +98,12 @@ class MakeRepositoryCommand extends Command
     public function getStubVariables()
     {
         return $stubVariables = [
-            'NAMESPACE' => 'App\\Repositories',
-            'CLASS_NAME' => $className = $this->getSingularClassName($this->argument('repositoryName') . "Repository"),
-            "INTERFACE_NAME" => $this->argument('repositoryName') . "RepositoryInterface",
-            "MODEL_NAME" => $this->argument('repositoryName'),
-            "MODEL_NAMES" => $this->getPluralClassName($this->argument('repositoryName')),
+            'NAMESPACE' => $this->getNamespace(),
+            'CLASS_NAME' => $className = $this->getClassName() . "Repository",
+            "INTERFACE_NAME" => $this->getNamespace() . "RepositoryInterface",
+            "MODEL_NAME" => $this->getClassName(),
+            "MODEL_NAMES" => $this->getModelNames(),
+            "MODEL_PATH" => $this->getModelPath(),
         ];
     }
     /**
@@ -103,7 +133,7 @@ class MakeRepositoryCommand extends Command
      * @return bool|mixed|string
      *
      */
-    public function getSourceFile()
+    public function getSourceFile() //using this function instead of getStubContents to prevent using args
     {
         return $this->getStubContents($this->getStubPath(), $this->getStubVariables());
     }
@@ -114,7 +144,7 @@ class MakeRepositoryCommand extends Command
      */
     public function getSourceFilePath()
     {
-        return base_path('App\\Repositories') . '\\' . $this->getSingularClassName($this->argument('repositoryName')) . 'Repository.php';
+        return base_path('App\\Repositories') . '\\' . $this->getSingularClassName() . 'Repository.php';
         // return base_path('App\\Interfaces') . '\\' . $this->getSingularClassName($this->argument($interfaceName)) . 'Interface.php';
     }
     /**
@@ -139,7 +169,6 @@ class MakeRepositoryCommand extends Command
         $interfaceName = $this->argument('repositoryName');
 
         $path = $this->getSourceFilePath();
-
         $this->makeDirectory(dirname($path));
         $contents = $this->getSourceFile();
 

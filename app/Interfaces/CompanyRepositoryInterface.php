@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Interfaces;
+namespace App\Interfaces\Company;
+
 
 interface CompanyRepositoryInterface
 {
     public function getAllCompanies();
-    public function getCompanyById($CompanyId);
-    public function deleteCompany($CompanyId);
-    public function createCompany(array $CompanyDetails);
-    public function updateCompany($CompanyId, array $newDetails);
+    public function getCompanyById($companyId);
+    public function createCompany(array $companyDetails);
+    public function updateCompany($companyId, array $newDetails);
+    public function deleteCompany($companyId);
+    public function deleteAll();
     public function getFulfilledCompanies();
 }
