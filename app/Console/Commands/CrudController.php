@@ -74,8 +74,13 @@ class CrudController extends Command
         $segments = explode('/', $this->argument('name')); //$segments =['company','companyController']
         $segments = explode('\\', $this->argument('name')); //$segments =['company','companyController']
         $segments = array_map('ucfirst', $segments); //$segments =['Company','CompanyController']
-        array_pop($segments); // Remove the last segment (controller name) //$segments =['Company']
-        return 'App\\Http\\Controllers' . "\\" . implode('\\', $segments); //   App\\Http\\Controllers\\Company
+        array_pop(($segments)); // Remove the last segment (controller name) //$segments =['Company']
+        if (count($segments) > 0) {
+            return 'App\\Http\\Controllers\\' . implode('\\', $segments);
+        }
+        return 'App\\Http\\Controllers' . implode('\\', $segments);
+
+        // dd( 'App\\Http\\Controllers\\' .implode('\\', $segments)); //   App\\Http\\Controllers\\Company
     }
 
     protected function getModelServiceNameSpace()
@@ -85,7 +90,10 @@ class CrudController extends Command
         $segments = array_map('ucfirst', $segments);
         $segments = str_replace(['Controller', 'controller'], ['', ''], $segments);
         array_pop($segments);
-        return  "App\\Http\\Services\\" . implode("\\", $segments)."\\".$this->getModelName(). "Service";
+        if (count($segments) > 0) {
+            return 'App\\Services\\' . implode('\\', $segments) . "\\" . $this->getModelName() . "Service";
+        }
+        return "App\\Services" . implode("\\", $segments) . "\\" . $this->getModelName() . "Service";
     }
     protected function getRootNamespace()
     {
@@ -151,7 +159,7 @@ class CrudController extends Command
         $segments = explode('\\', $this->argument("name"));
         $segments = array_map('ucfirst', $segments);
         $segments = str_replace(['Controller', 'controller'], ['', ''], $segments);
-        return "App\\Http\\Models" . "\\" . implode("\\", $segments);
+        return "App\\Models" . "\\" . implode("\\", $segments);
     }
 
 }

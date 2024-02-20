@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class CreateWorkerReviewRequest extends ApiRequest
+class CreateWorkerReviewRequest1 extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.

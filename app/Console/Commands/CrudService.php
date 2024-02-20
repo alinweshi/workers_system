@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Pluralizer;
 
 class CrudService extends Command
 {
@@ -49,12 +49,6 @@ class CrudService extends Command
             $this->info("File : {$path} already exits");
         }
 
-
-
-
-
-
-
     }
 
     protected function getParentDirectory($name)
@@ -70,15 +64,17 @@ class CrudService extends Command
     {
         return $stubPath = __DIR__ . '/../../../stubs/CrudService.stub';
     }
-    protected function getStubContents(){
+    protected function getStubContents()
+    {
         return $contents = file_get_contents($this->getStubPath());
 
     }
 
-    protected function getSourceFile($name){
-        $contents=str_replace(['{{ namespace }}', '{{ modelClass }}', '{{ modelRepositoryRoot }}', '{{ class }}', '{{ modelRepository}}', "{{ modelInstance }}"],
-        [$this->getNamespace($name), $this->getModelClass($name), $this->modelRepositoryRoot($name), $this->getModelClass($name), $this->getModelRepositoryName($name), $this->getModelInstance($name)],
-        $this->getStubContents());
+    protected function getSourceFile($name)
+    {
+        $contents = str_replace(['{{ pluralModelClass }}','{{ namespace }}', '{{ modelClass }}', '{{ modelRepositoryRoot }}', '{{ class }}', '{{ modelRepository}}', "{{ modelInstance }}"],
+            [$this->getPluralModelClass($name),$this->getNamespace($name), $this->getModelClass($name), $this->modelRepositoryRoot($name), $this->getModelClass($name), $this->getModelRepositoryName($name), $this->getModelInstance($name)],
+            $this->getStubContents());
         return $contents;
     }
     //to get {{ namespace }}2
@@ -86,8 +82,12 @@ class CrudService extends Command
     {
         $segments = explode('/', $name);
         $segments = array_map('ucfirst', $segments);
-        $segments= [array_pop($segments)]; 
-        return "App\\Services"."\\". implode('\\', $segments);
+        array_pop($segments);
+        if (count($segments) > 0) {
+
+            return "App\\Services" . "\\" . implode('\\', $segments);
+        }
+        return "App\\Services" . implode('\\', $segments);
 
     }
     protected function getModelClass($name)
@@ -95,6 +95,12 @@ class CrudService extends Command
         $segments = explode('/', $name);
         $segments = array_map('ucfirst', $segments);
         return end($segments);
+    }
+    protected function getPluralModelClass($name)
+    {
+        $segments = explode('/', $name);
+        $segments = array_map('ucfirst', $segments);
+        return pluralizer::plural(end($segments));
     }
     protected function getModelInstance($name)
     {
@@ -113,11 +119,11 @@ class CrudService extends Command
     {
         $segments = explode('/', $name);
         $segments = array_map('ucfirst', $segments);
-        return implode("\\",$segments);
+        return implode("\\", $segments);
     }
     protected function modelRepositoryRoot($name)
     {
-        return "App\\Repositories\\" . $this-> getModelRepository($name). "Repository";
+        return "App\\Repositories\\" . $this->getModelRepository($name) . "Repository";
     }
     protected function getSourceFilePath($name)
     {

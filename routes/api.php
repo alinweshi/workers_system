@@ -82,15 +82,15 @@ Route::prefix('auth')->group(function () {
         Route::post('/is_paid/{id}', 'isPaid')->middleware('auth:admin');
         Route::post('/is_cancelled/{id}', 'is_cancelled')->middleware('auth:admin');
     });
-    Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
-        Route::get('/showAll', 'getAllReviews');
-        Route::get('/show/{id}', 'getReviewById');
-        Route::get('/show/client/{id}', 'getReviewsByClientId');
-        Route::post('/store', 'addReview')->middleware('auth:client');
-        Route::post('/update/{reviewId}', 'update');
-        Route::delete('/delete/{reviewId}', 'delete');
-        Route::delete('/delete', 'deleteAll');
-    });
+    // Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+    //     Route::get('/showAll', 'getAllReviews');
+    //     Route::get('/show/{id}', 'getReviewById');
+    //     Route::get('/show/client/{id}', 'getReviewsByClientId');
+    //     Route::post('/store', 'addReview')->middleware('auth:client');
+    //     Route::post('/update/{reviewId}', 'update');
+    //     Route::delete('/delete/{reviewId}', 'delete');
+    //     Route::delete('/delete', 'deleteAll');
+    // });
 });
 Route::group([
 
@@ -111,5 +111,264 @@ Route::get('/unauthorized', function () {
     ], 401);
 })->name('login');
 
-
+Route::prefix('auth')->group(function () {
+    Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews', 'index');
+        Route::post('store/WorkerReview', 'store');
+        Route::get('show/WorkerReview/{id}', 'show');
+        Route::put('update/WorkerReview/{id}', 'update');
+        Route::delete('delete/WorkerReview/{id}', 'destroy');
+        Route::delete('delete/WorkerReviews', 'deleteAll');
+    });
+});
+Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
+    Route::prefix('auth')->group(function () {
+        Route::controller(WorkerReviewController::class)->prefix('review')->group(function () {
+        Route::get('/WorkerReviews',  'index');
+        Route::post('store/WorkerReview',  'store');
+        Route::get('show/WorkerReview/{id}',  'show');
+        Route::put('update/WorkerReview/{id}',  'update');
+        Route::delete('delete/WorkerReview/{id}',  'destroy');
+        Route::delete('delete/WorkerReviews',  'deleteAll');
+        });
+        });
     

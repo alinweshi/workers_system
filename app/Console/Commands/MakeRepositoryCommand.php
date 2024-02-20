@@ -62,7 +62,7 @@ class MakeRepositoryCommand extends Command
     {
         $segments = explode('/', $this->argument('repositoryName'));
         $segments = array_map('ucfirst', $segments);
-        return 'App\\Models\\' . implode("\\",$segments);
+        return 'App\\Models\\' . implode("\\", $segments);
 
     }
     /**
@@ -78,8 +78,21 @@ class MakeRepositoryCommand extends Command
     {
         $segments = explode('/', $this->argument('repositoryName'));
         $segments = array_map('ucfirst', $segments);
-        $segments = [array_pop($segments)];
-        return  implode("\\", $segments);
+        array_pop($segments);
+        if (count($segments) > 0) {
+            return "App\\Repositories\\" . implode("\\", $segments);
+        }
+        return "App\\Repositories" . implode("\\", $segments);
+    }
+    protected function getInterfaceNamespace()
+    {
+        $segments = explode('/', $this->argument('repositoryName'));
+        $segments = array_map('ucfirst', $segments);
+        array_pop($segments);
+        if (count($segments) > 0) {
+            return "App\\Interfaces\\" . implode("\\", $segments) . "\\" .$this->getClassName() . "RepositoryInterface";
+        }
+        return "App\\Interfaces" . implode("\\", $segments) . "\\". $this->getClassName() . "RepositoryInterface";
     }
     public function getModelNames()
     {
@@ -100,10 +113,11 @@ class MakeRepositoryCommand extends Command
         return $stubVariables = [
             'NAMESPACE' => $this->getNamespace(),
             'CLASS_NAME' => $className = $this->getClassName() . "Repository",
-            "INTERFACE_NAME" => $this->getNamespace() . "RepositoryInterface",
+            "INTERFACE_NAME" => $this->getClassName() . "RepositoryInterface",
             "MODEL_NAME" => $this->getClassName(),
             "MODEL_NAMES" => $this->getModelNames(),
             "MODEL_PATH" => $this->getModelPath(),
+            "INTERFACE_NAMESPACE" => $this->getInterfaceNamespace(),
         ];
     }
     /**

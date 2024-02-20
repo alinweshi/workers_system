@@ -10,19 +10,19 @@ class {{ class }}Service{
         $this->{{ modelInstance }}Repository =${{ modelInstance }}Repository;
     }
     public function getAll(){
-        return $this->{{ modelInstance }}Repository->getAll();
+        return $this->{{ modelInstance }}Repository->getAll{{ pluralModelClass }}();
     }
-    public function getById($id){
-        return $this->{{ modelInstance }}Repository->getById($id);
+    public function getById(${{ modelInstance }}Id){
+        return $this->{{ modelInstance }}Repository->get{{ modelClass }}ById(${{ modelInstance }}Id);
     }
-    public function create($data){
-        return $this->{{ modelInstance }}Repository->create($data);
+    public function create(array ${{ modelInstance }}Details){
+        return $this->{{ modelInstance }}Repository->create{{ modelClass }}( ${{ modelInstance }}Details);
     }
-    public function update($id, $data){
-        return $this->{{ modelInstance }}Repository->update($id, $data);
+    public function update(${{ modelInstance }}Id, array $newDetails){
+        return $this->{{ modelInstance }}Repository->update{{ modelClass }}(${{ modelInstance }}Id,  $newDetails) ;
     }
-    public function delete($id){
-        return $this->{{ modelInstance }}Repository->delete($id);
+    public function delete(${{ modelInstance }}Id){
+        return $this->{{ modelInstance }}Repository->delete{{ modelClass }}(${{ modelInstance }}Id);
     }
     public function deleteAll(){
         return $this->{{ modelInstance }}Repository->deleteAll();

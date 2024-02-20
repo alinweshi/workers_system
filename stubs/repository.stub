@@ -1,6 +1,6 @@
 <?php
 namespace $NAMESPACE$;
-use App\Interfaces\$INTERFACE_NAME$;
+use $INTERFACE_NAMESPACE$;
 use $MODEL_PATH$;
 
 

@@ -94,8 +94,12 @@ class MakeInterfaceCommand extends Command
     {
         $segments = explode('/', $this->argument('interfaceName'));
         $segments = array_map('ucfirst', $segments);
-        $segments = [array_pop($segments)];
-        return 'App\\Interfaces\\' . implode("\\", $segments);
+        array_pop($segments);
+        if(count($segments) > 0){
+
+            return 'App\\Interfaces\\' . implode("\\", $segments);
+        }
+        return 'App\\Interfaces' . implode("\\", $segments);
     }
 
     /**

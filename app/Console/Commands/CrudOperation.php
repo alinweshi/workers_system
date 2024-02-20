@@ -31,11 +31,11 @@ class CrudOperation extends Command
         $modelName = $this->argument('modelName');
 
         // Call commands to generate files
-        $this->call('make:CrudModel', ['name' => $modelName]);
+        $this->call('make:model', ['name' => $modelName]);
         $this->call('make:CrudController', ['name' => $modelName . 'Controller']);
         $this->call('make:interface', ['interfaceName' => $modelName]);
         $this->call("make:repository", ['repositoryName' => $modelName]);
-        $this->call('make:CrudService', ['name' => $modelName . 'Service']);
+        $this->call('make:CrudService', ['name' => $modelName ]);
         $this->call('make:migration', ['name' => "create_" . $this->generateMigrationName() . "_table"]);
         $this->call('make:seeder', ['name' => $modelName . 'TableSeeder']);
         $this->call('make:factory', ['name' => $modelName . 'Factory']);
@@ -75,24 +75,28 @@ class CrudOperation extends Command
         // Append route definitions for CRUD operations
         //append  it means to add some route definitions to the existing route file
         $modelNames = Pluralizer::plural($modelName);
-        $routeDefinitions .= "
-        Route::get('/{$modelNames}', [{$controllerName}::class, 'index']);
-        Route::post('store/{$modelName}', [{$controllerName}::class, 'store']);
-        Route::get('show/{$modelName}/{id}', [{$controllerName}::class, 'show']);
-        Route::put('update/{$modelName}/{id}', [{$controllerName}::class, 'update']);
-        Route::delete('delete/{$modelName}/{id}', [{$controllerName}::class, 'destroy']);
-        Route::delete('delete/{$modelNames}', [{$controllerName}::class, 'deleteAll']);
+        $routeDefinitions .= "Route::prefix('auth')->group(function () {
+        Route::controller({$controllerName}::class)->prefix('review')->group(function () {
+        Route::get('/{$modelNames}',  'index');
+        Route::post('store/{$modelName}',  'store');
+        Route::get('show/{$modelName}/{id}',  'show');
+        Route::put('update/{$modelName}/{id}',  'update');
+        Route::delete('delete/{$modelName}/{id}',  'destroy');
+        Route::delete('delete/{$modelNames}',  'deleteAll');
+        });
+        });
     ";
 
         // Write the updated route definitions back to the route file
         File::put($routeFile, $routeDefinitions);
     }
-    protected function generateMigrationName(){
-        $segments=explode('\\',$this->argument('modelName'));
-        $segments=explode('/',$this->argument('modelName'));
-        $segments=array_map("lcfirst",$segments);
+    protected function generateMigrationName()
+    {
+        $segments = explode('\\', $this->argument('modelName'));
+        $segments = explode('/', $this->argument('modelName'));
+        $segments = array_map("lcfirst", $segments);
         $modelName = end($segments);
-         return ((Pluralizer::plural($modelName)));
+        return ((Pluralizer::plural($modelName)));
     }
 
 }
