@@ -32,9 +32,10 @@ class CrudController extends Command
     public function handle()
     {
         $segments = explode('/', $this->argument('name'));
+        $segments = explode('\\', $this->argument('name'));
         $segments = array_map('ucfirst', $segments);
 
-        $path = app_path('Http\\Controllers') . "\\" . implode("\\", $segments) . '.php';
+        $path = app_path('Http\\Controllers') . "\\" . implode("\\", $segments) . 'Controller.php';
         $this->makeDirectory(dirname($path));
 
         $contents = $this->getStubContents();
@@ -45,6 +46,9 @@ class CrudController extends Command
         } else {
             $this->info("File : {$path} already exits");
         }
+        $this->call('make:request', ['name' => $this->argument('name') . 'StoreRequest']);
+        $this->call('make:request', ['name' => $this->argument('name') . 'UpdateRequest']);
+
     }
     protected function getStubContents()
     {

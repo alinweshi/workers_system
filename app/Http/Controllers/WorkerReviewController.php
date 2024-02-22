@@ -114,4 +114,17 @@ class WorkerReviewController extends Controller
                 return response()->json(['error' => 'no workerReview to delete'], 404);
         }
 
+    /**
+     * Remove the all resources from storage.
+     */
+    public function deleteAll()
+    {
+        $workerReviews=$this->workerReviewService->getAll();
+    if($workerReviews){
+              $this->workerReviewService->deleteAll();
+              return response()->json(["message"=>"workerReviews deleted successfully"],200);
+    }
+                return response()->json(['error' => 'no workerReviews to delete'], 404);
+        }
+
 }

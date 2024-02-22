@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use {{ ModelServiceNameSpace }};
 
 
-class {{ class }} extends Controller
+class {{ class }}Controller extends Controller
 {
     protected ${{ modelVariable }};
     protected ${{ modelVariable }}Service;
@@ -112,6 +112,19 @@ class {{ class }} extends Controller
               return response()->json(["message"=>"{{ modelVariable }} deleted successfully"],200);
     }
                 return response()->json(['error' => 'no {{ modelVariable }} to delete'], 404);
+        }
+
+    /**
+     * Remove the all resources from storage.
+     */
+    public function deleteAll()
+    {
+        ${{ modelVariables }}=$this->{{ modelVariable }}Service->getAll();
+    if(${{ modelVariables }}){
+              $this->{{ modelVariable }}Service->deleteAll();
+              return response()->json(["message"=>"{{ modelVariables }} deleted successfully"],200);
+    }
+                return response()->json(['error' => 'no {{ modelVariables }} to delete'], 404);
         }
 
 }

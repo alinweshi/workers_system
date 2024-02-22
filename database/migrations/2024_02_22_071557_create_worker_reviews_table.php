@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('worker_reviews', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('post_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('client_id')->constrained()->cascadeOnDelete();
+            $table->text('comment');
+            $table->integer('rate');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

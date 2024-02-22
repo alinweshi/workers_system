@@ -32,14 +32,14 @@ class CrudOperation extends Command
 
         // Call commands to generate files
         $this->call('make:model', ['name' => $modelName]);
-        $this->call('make:CrudController', ['name' => $modelName . 'Controller']);
+        $this->call('make:CrudController', ['name' => $modelName ]);
         $this->call('make:interface', ['interfaceName' => $modelName]);
         $this->call("make:repository", ['repositoryName' => $modelName]);
-        $this->call('make:CrudService', ['name' => $modelName ]);
+        $this->call('make:CrudService', ['name' => $modelName]);
         $this->call('make:migration', ['name' => "create_" . $this->generateMigrationName() . "_table"]);
         $this->call('make:seeder', ['name' => $modelName . 'TableSeeder']);
         $this->call('make:factory', ['name' => $modelName . 'Factory']);
-        $this->call('make:CrudRequest', ['name' => $modelName . 'Request']);
+        $this->call('make:request', ['name' => $modelName . 'Request']);
         $this->call('make:view', ['name' => $modelName]);
 
         // Generate route definitions

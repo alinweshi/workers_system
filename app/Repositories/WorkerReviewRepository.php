@@ -32,7 +32,11 @@ class WorkerReviewRepository implements WorkerReviewRepositoryInterface
     }
     public function deleteAll()
     {
-        return WorkerReview::all()->delete();
+        $workerReviews = WorkerReview::all();
+
+        foreach ($workerReviews as $workerReview) {
+            $workerReview->delete();
+        }
     }
 
     public function getFulfilledWorkerReviews()
